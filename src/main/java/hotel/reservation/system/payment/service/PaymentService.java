@@ -5,6 +5,7 @@ import hotel.reservation.system.payment.repository.PaymentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -50,6 +51,34 @@ public class PaymentService {
             return paymentRepository.save(payment);
         } else {
             return null;
+        }
+    }
+
+    public List<Payment> getAllPayments() {
+        return paymentRepository.findAll();
+    }
+
+    public Payment updatePayment(Long id, Payment updatedPayment) {
+        Optional<Payment> existingPayment = paymentRepository.findById(id);
+        if (existingPayment.isPresent()) {
+            Payment payment = existingPayment.get();
+            payment.setAmount(updatedPayment.getAmount());
+            payment.setPaymentStatus(updatedPayment.getPaymentStatus());
+            payment.setCustomerId(updatedPayment.getCustomerId());
+            payment.setReservationId(updatedPayment.getReservationId());
+            return paymentRepository.save(payment);
+        } else {
+            return null;
+        }
+    }
+
+    public boolean deletePayment(Long id) {
+        Optional<Payment> payment = paymentRepository.findById(id);
+        if (payment.isPresent()) {
+            paymentRepository.deleteById(id);
+            return true;
+        } else {
+            return false;
         }
     }
 }
