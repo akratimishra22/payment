@@ -25,10 +25,29 @@ public class PaymentController {
         }
     }
 
-
     @GetMapping("/{id}")
     public ResponseEntity<Payment> getPaymentById(@PathVariable Long id) {
         Payment payment = paymentService.getPaymentById(id);
+        if (payment != null) {
+            return new ResponseEntity<>(payment, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @GetMapping("/{reservationId}")
+    public ResponseEntity<Payment> getPaymentByReservationId(@PathVariable Long reservationId) {
+        Payment payment = paymentService.getPaymentByReservationId(reservationId);
+        if (payment != null) {
+            return new ResponseEntity<>(payment, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @PutMapping("/{id}/{updatedStatus}")
+    public ResponseEntity<Payment> updatePayment(@PathVariable Long id, @PathVariable String updatedStatus) {
+        Payment payment = paymentService.updatePayment(id, updatedStatus);
         if (payment != null) {
             return new ResponseEntity<>(payment, HttpStatus.OK);
         } else {

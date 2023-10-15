@@ -22,8 +22,24 @@ public class PaymentService {
         return payment.orElse(null);
     }
 
+    public Payment getPaymentByReservationId(Long reservationId) {
+        Optional<Payment> payment = paymentRepository.findByReservationId(reservationId);
+        return payment.orElse(null);
+    }
+
     public Payment makePayment(Payment payment) {
         return paymentRepository.save(payment);
+    }
+
+    public Payment updatePayment(Long id, String updatedStatus) {
+        Optional<Payment> existingPayment = paymentRepository.findById(id);
+        if (existingPayment.isPresent()) {
+            Payment payment = existingPayment.get();
+            payment.setPaymentStatus(updatedStatus);
+            return paymentRepository.save(payment);
+        } else {
+            return null;
+        }
     }
 }
 
