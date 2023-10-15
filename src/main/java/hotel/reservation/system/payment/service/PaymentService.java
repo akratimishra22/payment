@@ -31,11 +31,22 @@ public class PaymentService {
         return paymentRepository.save(payment);
     }
 
-    public Payment updatePayment(Long id, String updatedStatus) {
+    public Payment updatePaymentStatus(Long id, String updatedStatus) {
         Optional<Payment> existingPayment = paymentRepository.findById(id);
         if (existingPayment.isPresent()) {
             Payment payment = existingPayment.get();
             payment.setPaymentStatus(updatedStatus);
+            return paymentRepository.save(payment);
+        } else {
+            return null;
+        }
+    }
+
+    public Payment updateReservationId(Long id, Long reservationId) {
+        Optional<Payment> existingPayment = paymentRepository.findById(id);
+        if (existingPayment.isPresent()) {
+            Payment payment = existingPayment.get();
+            payment.setReservationId(reservationId);
             return paymentRepository.save(payment);
         } else {
             return null;

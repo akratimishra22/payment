@@ -22,7 +22,7 @@ public class Payment {
 	@Column(name = "customerId", nullable = false)
 	private Long customerId;
 
-	@Column(name = "reservationId", nullable = false)
+	@Column(name = "reservationId")
 	private Long reservationId;
 
 	@Column(name = "amount", nullable = false)

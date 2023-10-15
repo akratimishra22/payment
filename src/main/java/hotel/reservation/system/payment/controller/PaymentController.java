@@ -35,7 +35,7 @@ public class PaymentController {
         }
     }
 
-    @GetMapping("/{reservationId}")
+    @GetMapping("reservationId/{reservationId}")
     public ResponseEntity<Payment> getPaymentByReservationId(@PathVariable Long reservationId) {
         Payment payment = paymentService.getPaymentByReservationId(reservationId);
         if (payment != null) {
@@ -46,8 +46,18 @@ public class PaymentController {
     }
 
     @PutMapping("/{id}/{updatedStatus}")
-    public ResponseEntity<Payment> updatePayment(@PathVariable Long id, @PathVariable String updatedStatus) {
-        Payment payment = paymentService.updatePayment(id, updatedStatus);
+    public ResponseEntity<Payment> updatePaymentStatus(@PathVariable Long id, @PathVariable String updatedStatus) {
+        Payment payment = paymentService.updatePaymentStatus(id, updatedStatus);
+        if (payment != null) {
+            return new ResponseEntity<>(payment, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @PutMapping("/{id}/reservationId{reservationId}")
+    public ResponseEntity<Payment> updatePaymentStatus(@PathVariable Long id, @PathVariable Long reservationId) {
+        Payment payment = paymentService.updateReservationId(id, reservationId);
         if (payment != null) {
             return new ResponseEntity<>(payment, HttpStatus.OK);
         } else {
